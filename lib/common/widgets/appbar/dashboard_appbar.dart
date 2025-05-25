@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../features/home/widgets/dialogs/category_dialog.dart';
+import '../../../features/home/widgets/dialogs/create_task_dialog.dart';
+import '../../../reusable_designs/icons/icon_with_dialog_function.dart';
 import '../../../utils/constants/sizes.dart';
 
 class CustomDashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -42,13 +45,32 @@ class CustomDashboardAppBar extends StatelessWidget implements PreferredSizeWidg
                     // TODO: Notification action
                   },
                 ),
+
                 const SizedBox(width: TSizes.sm),
-                IconButton(
-                  icon: const Icon(Iconsax.add, size: 30),
-                  onPressed: () {
-                    // TODO: Add action
+                PopupMenuIconButton(
+                  icon: Icons.add,
+                  items: const [
+                    PopupMenuItemData(value: 'category', icon: Icons.category, title: 'Create New Category'),
+                    PopupMenuItemData(value: 'task', icon: Icons.task, title: 'Create New Task'),
+                  ],
+                  onSelected: (value) {
+                    if (value == 'category') {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const CreateCategoryDialog(),
+                      );
+                    } else if (value == 'task') {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const CreateTaskDialog(),
+                      );
+                    }
                   },
+
+
                 ),
+
+
               ],
             )
           ],
@@ -60,3 +82,4 @@ class CustomDashboardAppBar extends StatelessWidget implements PreferredSizeWidg
   @override
   Size get preferredSize => const Size.fromHeight(80);
 }
+

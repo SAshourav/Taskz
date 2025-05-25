@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-
 import '../buttons/outline_button_with_text.dart';
 
 class SectionHeadingWithButton extends StatelessWidget {
+  final String headingText;
+  final String subtitleText;
+  final bool showButton;
+  final OutlineButtonWithText? button;
+  final TextStyle? headingStyle;
+  final TextStyle? subtitleStyle;
+
   const SectionHeadingWithButton({
     super.key,
+    required this.headingText,
+    required this.subtitleText,
+    this.showButton = true,
+    this.button,
+    this.headingStyle,
+    this.subtitleStyle,
   });
 
   @override
@@ -16,16 +28,21 @@ class SectionHeadingWithButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Projects",
-              style: Theme.of(context).textTheme.displaySmall,
+              headingText,
+              style: headingStyle ?? Theme.of(context).textTheme.displaySmall,
             ),
             Text(
-              "You have 3 ongoing projects",
-              style: Theme.of(context).textTheme.bodyMedium,
+              subtitleText,
+              style: subtitleStyle ?? Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
-        const OutlineButtonWithText(),
+        if (showButton)
+          button ??
+              const OutlineButtonWithText(
+                labelText: 'Add',
+                icon: Icons.add,
+              ),
       ],
     );
   }
