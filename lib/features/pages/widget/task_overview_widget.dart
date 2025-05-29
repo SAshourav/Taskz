@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:taskz/features/pages/details.dart';
 import 'package:taskz/reusable_designs/buttons/elevated_button.dart';
 import '../../../common/widgets/custom_shapes/containers/TRoundedContainer.dart';
 import '../../../utils/constants/colors.dart';
+import 'package:get/get.dart';
 
 class TaskOverviewWidget extends StatelessWidget {
   const TaskOverviewWidget({
@@ -71,7 +73,9 @@ class TaskOverviewWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           // Details button
-          SAElevatedButton(text: "Details", onPressed: (){})
+          SAElevatedButton(text: "Details", onPressed: (){
+            Get.to(()=>DetailsScreen());
+          })
         ],
       ),
     );

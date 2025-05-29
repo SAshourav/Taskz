@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taskz/common/widgets/custom_shapes/containers/TRoundedContainer.dart';
+import 'package:taskz/features/pages/details.dart';
 import 'package:taskz/features/pages/widget/category_appbar.dart';
 import 'package:taskz/features/pages/widget/task_overview_widget.dart';
-import 'package:taskz/utils/constants/colors.dart';
+import 'package:get/get.dart';
 
 class Category extends StatelessWidget {
   const Category({super.key});
@@ -34,7 +35,6 @@ class Category extends StatelessWidget {
                 progressValue: progressValues[index],
                 unfinishedTasks: unfinishedTasks[index],
                 onDetailsPressed: () {
-                  // Add navigation or dialog logic here based on index
                   print('Details pressed for ${taskNames[index]}');
                 },
               );

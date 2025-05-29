@@ -4,54 +4,85 @@ import '../../../features/home/widgets/dialogs/create_task_dialog.dart';
 import '../../../utils/constants/sizes.dart';
 
 class CustomCategoryAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomCategoryAppBar({super.key});
+  const CustomCategoryAppBar({
+    super.key,
+    this.title = 'Projects',
+    this.leftIcon = Iconsax.arrow_left,
+    this.rightIcon = Iconsax.edit,
+    this.leftIconAction,
+    this.rightIconAction,
+    this.iconSize = TSizes.iconLg,
+    this.titleStyle,
+    this.iconColor = Colors.black,
+    this.backgroundColor,
+    this.circleBackgroundColor,
+    this.appBarHeight = 60,
+    this.showRightIcon = true, // New parameter to control right icon visibility
+  });
+
+  final String title;
+  final IconData leftIcon;
+  final IconData rightIcon;
+  final VoidCallback? leftIconAction;
+  final VoidCallback? rightIconAction;
+  final double iconSize;
+  final TextStyle? titleStyle;
+  final Color iconColor;
+  final Color? backgroundColor;
+  final Color? circleBackgroundColor;
+  final double appBarHeight;
+  final bool showRightIcon; // New parameter
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: TSizes.md, vertical: TSizes.sm),
-        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white, // Match the white background
+        color: backgroundColor ?? Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Left side: Back button with circular background
+            // Left side: Customizable icon
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey.withOpacity(0.1), // Light grey circular background
+                color: circleBackgroundColor ?? Colors.grey.withOpacity(0.1),
               ),
               child: IconButton(
-                icon: const Icon(Iconsax.arrow_left, size: TSizes.iconLg), // Smaller back arrow
-                color: Colors.black, // Black icon color
-                onPressed: () => Navigator.of(context).pop(), // Navigate back
+                icon: Icon(leftIcon, size: iconSize),
+                color: iconColor,
+                onPressed: leftIconAction ?? () => Navigator.of(context).pop(),
               ),
             ),
-            // Center: Project title
+            // Center: Customizable title
             Text(
-              "Projects",
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w600, // Slightly bold
-                color: Colors.black, // Black text
-              ),
+              title,
+              style: titleStyle ??
+                  Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
             ),
-            // Right side: Edit icon with circular background
-            Container(
+            // Right side: Conditionally show the right icon
+            showRightIcon
+                ? Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey.withOpacity(0.1), // Light grey circular background
+                color: circleBackgroundColor ?? Colors.grey.withOpacity(0.1),
               ),
               child: IconButton(
-                icon: const Icon(Iconsax.edit, size: TSizes.iconLg), // Edit icon
-                color: Colors.black, // Black icon color
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const CreateTaskDialog(),
-                  );
-                },
+                icon: Icon(rightIcon, size: iconSize),
+                color: iconColor,
+                onPressed: rightIconAction ??
+                        () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const CreateTaskDialog(),
+                      );
+                    },
               ),
-            ),
+            )
+                : const SizedBox(width: TSizes.iconLg), // Placeholder to balance layout
           ],
         ),
       ),
@@ -59,5 +90,5 @@ class CustomCategoryAppBar extends StatelessWidget implements PreferredSizeWidge
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(60); // Adjusted height to match design
+  Size get preferredSize => Size.fromHeight(appBarHeight);
 }
