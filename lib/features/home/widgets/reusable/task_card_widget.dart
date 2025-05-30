@@ -11,6 +11,7 @@ class TaskCardWidget extends StatelessWidget {
     this.textColor = Colors.purple,
     this.taskCountColor = TColors.darkGrey,
     this.backgroundColor = TColors.lightLavender,
+    this.onTap, // Added optional onTap callback
   });
 
   final String taskCount;
@@ -20,10 +21,12 @@ class TaskCardWidget extends StatelessWidget {
   final Color textColor;
   final Color taskCountColor;
   final Color backgroundColor;
+  final VoidCallback? onTap; // Nullable callback for tap events
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
+    // Wrap the AnimatedContainer in a GestureDetector if onTap is provided
+    Widget cardContent = AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       child: Container(
         width: 200,
@@ -77,5 +80,13 @@ class TaskCardWidget extends StatelessWidget {
         ),
       ),
     );
+
+    // Conditionally wrap with GestureDetector if onTap is not null
+    return onTap != null
+        ? GestureDetector(
+      onTap: onTap,
+      child: cardContent,
+    )
+        : cardContent;
   }
 }
